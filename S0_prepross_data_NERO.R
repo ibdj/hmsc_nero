@@ -1,5 +1,5 @@
 install.packages("pacman","tidyverse","Hmsc", dependencies = TRUE)
-pacman::p_load(tidyverse, Hmsc)
+pacman::p_load(tidyverse, Hmsc, google,sf)
 
 library(tidyverse)
 # scripts for preprossing the data with a test run on NERO data
@@ -10,12 +10,15 @@ localDir = "."
 data.directory = file.path(localDir, "data")
 
 #### Reading the data and viewing the first line ####
-
+# reading the environmental data straight from a geopackage
 env_data <- read_csv("data/env_data.csv")
+
+env_import <- st_read("/Users/ibdj/Library/CloudStorage/OneDrive-Aarhusuniversitet/MappingPlants/gis/nero_final_enviromental_variables.gpkg", layer = "nero_final_enviromental_variables") 
+# filter is not really ness
 
 data = read.csv(file=file.path(data.directory,"data_2007.csv"),
                 stringsAsFactors=TRUE) |>
-                merge(env_data, by = "plot_id", all.x = TRUE) |> #merging the environmental data to process it in the same way as they did in the script 
+                merge(env_import, by = "plot_id", all.x = TRUE) |> #merging the environmental data to process it in the same way as they did in the script 
                 mutate(
                   site = plot_id,
                   species = taxon_code,
