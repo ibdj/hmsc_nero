@@ -10,3 +10,7 @@
 /models
 /renv
 /results
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
