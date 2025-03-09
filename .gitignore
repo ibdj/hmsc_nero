@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.tif
+
+#folders to ignore
+
+/data
+/models
+/renv
+/results
