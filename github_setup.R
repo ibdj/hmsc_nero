@@ -11,13 +11,15 @@ use_git_config(
 
 # see tokens https://github.com/settings/tokens
 
+use_github()
+
+# resuse or set new 
 gitcreds::gitcreds_set()
 
 git_vaccinate() 
 
 usethis::use_git()
 
-use_github()
 
 
 
