@@ -8,6 +8,7 @@ library(rgbif)
 
 sp.names <- read_csv("data/index_species.csv") |> 
   mutate(trait = func_type)
+
 sp.list <- read_csv("data/data_2007.csv") |> left_join(sp.names, by = "taxon_code") |> 
   mutate(name = species)
 
