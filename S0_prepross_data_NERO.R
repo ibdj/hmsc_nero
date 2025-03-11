@@ -1,7 +1,6 @@
 install.packages("pacman","tidyverse","Hmsc", dependencies = TRUE)
-pacman::p_load(tidyverse, Hmsc, google,sf)
+pacman::p_load(tidyverse, Hmsc, googlesheets4,sf)
 
-library(tidyverse)
 # scripts for preprossing the data with a test run on NERO data
 
 #### Setting the working directory ####
@@ -24,11 +23,13 @@ data = read.csv(file=file.path(data.directory,"data_2007.csv"),
                   species = taxon_code,
                   value = raunkiaer_value,
                   env = elevation_arctic_dem
-                )
+                ) |> 
+  left_join(sp.names, by = "taxon_code")
 
 
 
 data$site = factor(data$site)
+data$trait = factor(data$trait)
 head(data)
 
 #### Reformating the data so that it works as input for hmsc #####
@@ -41,15 +42,15 @@ head(data)
 
 #### Original script to make dataframes ####
 sites = levels(data$site)
-species = levels(data$species)
+species = levels(data$species.x)
 n = length(sites)
 ns = length(species)
 
 Y = matrix(0, nrow = n, ncol = ns)
 
-env = rep(NA,n)
-
-trait = rep(NA,ns)
+env = rep(NA, n)
+twi = rep(NA, n)
+trait = rep(NA, ns)  # Initialize trait as NA (will store strings)
 
 for (i in 1:n) {
   for (j in 1:ns) {
@@ -62,9 +63,15 @@ for (i in 1:n) {
         env[i] <- if (length(data[row, ]$env) > 0) data[row, ]$env[1] else NA
       }
       
+      # Only update twi[i] if it's still NA
+      if (is.na(twi[i])) {
+        twi[i] <- if (length(data[row, ]$twi_arcticdem) > 0) data[row, ]$twi_arcticdem[1] else NA
+      }
+      
       # Only update trait[j] if it's still NA
       if (is.na(trait[j])) {
-        trait[j] <- if (length(data[row, ]$trait) > 0) data[row, ]$trait[1] else NA
+        trait_value <- data[row, ]$trait[1]
+        trait[j] <- if (!is.na(trait_value)) as.character(trait_value) else NA
       }
     }
   }
@@ -72,11 +79,17 @@ for (i in 1:n) {
 
 colnames(Y) = species
 rownames(Y) = sites
-XData = data.frame(ELE = env)
+
+# Create XData with numeric columns
+XData = data.frame(ele = env, twi = twi)
 rownames(XData) = sites
-TrData = data.frame(FUNC = trait)
+
+# Create TrData with string-based traits and ensure stringsAsFactors is FALSE
+TrData = data.frame(trait = trait, stringsAsFactors = FALSE)
 rownames(TrData) = species
 rownames(TrData) = colnames(Y)
+
+head(TrData)
 
 head(Y)
 
