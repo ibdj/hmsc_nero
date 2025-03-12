@@ -54,7 +54,7 @@ trait = rep(NA, ns)  # Initialize trait as NA (will store strings)
 
 for (i in 1:n) {
   for (j in 1:ns) {
-    row <- data$site == sites[i] & data$species == species[j]
+    row <- data$site == sites[i] & data$species.x == species[j]
     if (any(row)) {
       Y[i, j] <- if (length(data[row, ]$value) > 0) data[row, ]$value[1] else 0
       
@@ -96,4 +96,15 @@ head(Y)
 Y <- Y_pa <- (Y > 0) * 1
 head(Y_pa)
 
+#### organising the sData #####
+# by example of the birds case study of 
+
+data_plots <- unique(data[, c("plot_id", "lon_vir", "lat_vir")])
+xy =  as.matrix(cbind(data_plots$lon_vir,data_plots$lat_vir))
+rownames(xy)=data_plots$plot_id
+colnames(xy)=c("x-coordinate","y-coordinate")
+head(xy)
+
+
+#### ########################################################################################################
 save(Y, XData, TrData, file=file.path(data.directory,"allData.RData"))
