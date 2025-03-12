@@ -101,6 +101,9 @@ XFormula = ~ ELE
 studyDesign = data.frame(plot = as.factor(rownames(XData)))
 # REGRESSION MODEL FOR TRAITS
 
+# setting the random levels
+rL = HmscRandomLevel(sData=xy)
+
 # PRESENCE-ABSENCE MODEL FOR INDIVIDUAL SPECIES (COMMON ONLY)
 m = Hmsc(Y=Y, XData = XData,  XFormula = XFormula, studyDesign = studyDesign,
          distr="probit")
