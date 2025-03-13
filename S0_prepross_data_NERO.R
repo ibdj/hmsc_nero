@@ -105,6 +105,7 @@ rownames(xy)=data_plots$plot_id
 colnames(xy)=c("x-coordinate","y-coordinate")
 head(xy)
 
+sData <- xy
 
 #### ########################################################################################################
-save(Y, XData, TrData, file=file.path(data.directory,"allData.RData"))
+save(Y, XData, TrData, sData, file=file.path(data.directory,"allData.RData"))
