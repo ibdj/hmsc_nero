@@ -1,10 +1,13 @@
 #### packages ####
 
-library(remotes)
+if (!requireNamespace("pacman", quietly = TRUE) || !requireNamespace("devtools", quietly = TRUE)) {
+  install.packages(c("pacman", "devtools"))
+}
+devtools::install_github("inbo/inborutils")
+install_github("jinyizju/V.PhyloMaker", dependencies = TRUE)
+pacman::p_load(remotes, ape,tidyverse,googlesheets4, rgbif, ids, lubridate, devtools,V.PhyloMaker) 
 
-install_github("jinyizju/V.PhyloMaker")
-library(V.PhyloMaker)
-library(rgbif)
+####### reading data #############################################################################################
 
 sp.names <- read_csv("data/index_species.csv") |> 
   mutate(trait = func_type)
@@ -12,7 +15,7 @@ sp.names <- read_csv("data/index_species.csv") |>
 sp.list <- read_csv("data/data_2007.csv") |> left_join(sp.names, by = "taxon_code") |> 
   mutate(name = species)
 
-#### match species by gbif ####
+#### match species by gbif ########################################################################################
 
 sp.list <- sp.list |> name_backbone_checklist("name")
 
