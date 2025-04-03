@@ -1,4 +1,5 @@
-install.packages("pacman","tidyverse","Hmsc", dependencies = TRUE)
+install.packages("pacman","tidyverse",dependencies = TRUE)
+devtools::install_github("hmsc-r/HMSC")
 pacman::p_load(tidyverse, Hmsc, googlesheets4,sf)
 
 # scripts for preprossing the data with a test run on NERO data
@@ -9,11 +10,12 @@ localDir = "."
 data.directory = file.path(localDir, "data")
 
 #### Reading the data and viewing the first line ####
+
 # reading the environmental data straight from a geopackage
 env_data <- read_csv("data/env_data.csv")
 
 env_import <- st_read("/Users/ibdj/Library/CloudStorage/OneDrive-Aarhusuniversitet/MappingPlants/gis/nero_final_enviromental_variables.gpkg", layer = "nero_final_enviromental_variables") 
-# filter is not really ness
+
 
 data = read.csv(file=file.path(data.directory,"data_2007.csv"),
                 stringsAsFactors=TRUE) |>
