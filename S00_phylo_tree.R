@@ -26,3 +26,5 @@ sp.list <- sp.list[, c("species", "genus", "family")]
 #### phylo maker ####
 result <- phylo.maker(sp.list, scenarios = "S3")
 plot(result$scenario.3)
+
+result
