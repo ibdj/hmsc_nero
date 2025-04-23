@@ -13,7 +13,7 @@ use_git_config(
 
 use_github()
 
-# resuse or set new 
+# resuse or set new token
 gitcreds::gitcreds_set()
 
 git_vaccinate() 
