@@ -53,6 +53,7 @@ Y = matrix(0, nrow = n, ncol = ns)
 env = rep(NA, n)
 twi = rep(NA, n)
 ndvi = rep(NA, n)
+solarradiation = rep(NA, n)
 trait = rep(NA, ns)  # Initialize trait as NA (will store strings)
 
 for (i in 1:n) {
@@ -76,6 +77,11 @@ for (i in 1:n) {
         ndvi[i] <- if (length(data[row, ]$ndvi) > 0) data[row, ]$ndvi[1] else NA
       }
       
+      # Only update twi[i] if it's still NA
+      if (is.na(solarradiation[i])) {
+        solarradiation[i] <- if (length(data[row, ]$solarradiation) > 0) data[row, ]$solarradiation[1] else NA
+      }
+      
       # Only update trait[j] if it's still NA
       if (is.na(trait[j])) {
         trait_value <- data[row, ]$trait[1]
@@ -89,7 +95,7 @@ colnames(Y) = species
 rownames(Y) = sites
 
 # Create XData with numeric columns
-XData = data.frame(ele = env, twi = twi, ndvi = ndvi)
+XData = data.frame(ele = env, twi = twi, ndvi = ndvi, solarradiation = solarradiation)
 rownames(XData) = sites
 
 # Create TrData with string-based traits and ensure stringsAsFactors is FALSE
