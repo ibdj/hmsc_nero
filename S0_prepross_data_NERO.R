@@ -12,7 +12,7 @@ data.directory = file.path(localDir, "data")
 #### Reading the data and viewing the first line ####
 
 # reading the environmental data straight from a geopackage
-env_data <- read_csv("data/env_data.csv")
+#env_data <- read_csv("data/env_data.csv")
 
 env_import <- st_read("/Users/ibdj/Library/CloudStorage/OneDrive-Aarhusuniversitet/MappingPlants/gis/nero_final_enviromental_variables.gpkg", layer = "nero_final_enviromental_variables") 
 
@@ -43,7 +43,7 @@ head(data)
 # and the dataframe `TrData` of the trait C:N ratio = for NERO that would be functional groups
 
 #### Original script to make dataframes ####
-sites = levels(data$site)
+sites = levels(data$site) # for nero: site is the plot_id
 species = levels(data$species.x)
 n = length(sites)
 ns = length(species)
@@ -52,6 +52,7 @@ Y = matrix(0, nrow = n, ncol = ns)
 
 env = rep(NA, n)
 twi = rep(NA, n)
+ndvi = rep(NA, n)
 trait = rep(NA, ns)  # Initialize trait as NA (will store strings)
 
 for (i in 1:n) {
@@ -70,6 +71,11 @@ for (i in 1:n) {
         twi[i] <- if (length(data[row, ]$twi_arcticdem) > 0) data[row, ]$twi_arcticdem[1] else NA
       }
       
+      # Only update twi[i] if it's still NA
+      if (is.na(ndvi[i])) {
+        ndvi[i] <- if (length(data[row, ]$ndvi) > 0) data[row, ]$ndvi[1] else NA
+      }
+      
       # Only update trait[j] if it's still NA
       if (is.na(trait[j])) {
         trait_value <- data[row, ]$trait[1]
@@ -83,7 +89,7 @@ colnames(Y) = species
 rownames(Y) = sites
 
 # Create XData with numeric columns
-XData = data.frame(ele = env, twi = twi)
+XData = data.frame(ele = env, twi = twi, ndvi = ndvi)
 rownames(XData) = sites
 
 # Create TrData with string-based traits and ensure stringsAsFactors is FALSE
