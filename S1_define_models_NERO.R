@@ -96,7 +96,7 @@ hist(colSums(Y))
 # SET UP THE MODEL (BEGINNING)
 ##################################################################################################
 # REGRESSION MODEL FOR ENVIRONMENTAL COVARIATES.
-XFormula = ~ ELE
+XFormula = ~ ele + poly(twi, degree = 2, raw = TRUE)
 
 studyDesign = data.frame(plot = as.factor(rownames(XData)))
 # REGRESSION MODEL FOR TRAITS
