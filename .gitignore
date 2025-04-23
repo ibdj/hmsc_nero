@@ -3,6 +3,11 @@
 .RData
 .Ruserdata
 .tif
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
+.tree
 
 #folders to ignore
 
@@ -10,8 +15,3 @@
 /models
 /renv
 /results
-.Rdata
-.httr-oauth
-.DS_Store
-.quarto
-.tree
