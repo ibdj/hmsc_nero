@@ -98,7 +98,10 @@ rownames(Y) = sites
 XData = data.frame(ele = env, twi = twi, ndvi = ndvi, solarradiation = solarradiation)
 rownames(XData) = sites
 
-# Create TrData with string-based traits and ensure stringsAsFactors is FALSE
+rows_with_na <- XData[!complete.cases(XData), ]
+print(rows_with_na)
+
+# Crea# Crea# Create TrData with string-based traits and ensure stringsAsFactors is FALSE
 TrData = data.frame(trait = trait, stringsAsFactors = FALSE)
 rownames(TrData) = species
 rownames(TrData) = colnames(Y)
