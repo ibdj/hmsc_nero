@@ -1,10 +1,11 @@
 #### to do on hmsc ########################
 
-o maake solar radiation in ArcGIS
+
 o include a diversity index; plot diversity or section diversity??
     - how did Nabe-Nielsen do?
 o multible elements in study design
 
+x make solar radiation in gee
 x get the factors for the TrData
 x get the coordinate
 x including NDVI as env variables
