@@ -39,7 +39,7 @@ dataDir = file.path(localDir, "data")
 if(!dir.exists(dataDir)) dir.create(dataDir)
 modelDir = file.path(localDir, "models")
 if(!dir.exists(modelDir)) dir.create(modelDir)
- ##################################################################################################
+##################################################################################################
 # SET DIRECTORIES (END)
 ##################################################################################################
 
@@ -66,7 +66,10 @@ head(XData)
 str(XData)
 #XData$id = as.factor(XData$id)
 plot(XData)
-hist(XData$ELE)
+hist(XData$ele)
+hist(XData$ndvi)
+hist(XData$solarradiation)
+hist(XData$twi)
 #XData$volume = log(XData$volume)
 #hist(XData$volume)
 #hist(XData$decay)
@@ -80,11 +83,12 @@ hist(XData$ELE)
 ##################################################################################################
 # SELECT COMMON SPECIES (BEGINNING)
 ##################################################################################################
+head(Y)
 prev = colSums(Y)
 hist(prev)
 sum(prev>=15)
 sum(prev>=20)
-sel.sp = (prev>=20)
+sel.sp = (prev>=15)
 Y = Y[,sel.sp] #presence-absence data for selected species
 hist(colSums(Y))
 ##################################################################################################
@@ -105,7 +109,12 @@ studyDesign = data.frame(plot = as.factor(rownames(XData)))
 rL = HmscRandomLevel(sData=xy)
 
 # PRESENCE-ABSENCE MODEL FOR INDIVIDUAL SPECIES (COMMON ONLY)
-m = Hmsc(Y=Y, XData = XData,  XFormula = XFormula, studyDesign = studyDesign,
+m = Hmsc(Y=Y, 
+         XData = XData,  
+         XFormula = XFormula, 
+         studyDesign = studyDesign,
+         ranLevels = rL,
+         #phyloTree = plant.tree,
          distr="probit")
 ##################################################################################################
 # SET UP THE MODEL (END)
