@@ -105,7 +105,7 @@ XFormula = ~ ele + poly(twi, degree = 2, raw = TRUE) + poly(ndvi, degree = 2, ra
 studyDesign = data.frame(plot = as.factor(rownames(XData)))
 # REGRESSION MODEL FOR TRAITS
 
-# setting the random levels
+# setting the random levels. This way up setting up the random levelse is from the bird case study. 
 rL = HmscRandomLevel(sData=xy)
 
 # PRESENCE-ABSENCE MODEL FOR INDIVIDUAL SPECIES (COMMON ONLY)
